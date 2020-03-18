@@ -1,0 +1,120 @@
+1;pasien1;negatif;13;"74531412,37";Inggris
+2;pasien 2;positif;2;"76292482,76";Spanyol
+3;pasien 3;negatif;65;"88029821,7";Korea Selatan
+4;pasien 4;positif;38;"12160009,68";Amerika
+5;pasien 5;negatif;70;"97650541,63";Malaysia
+6;pasien 6;positif;65;"87914126,62";Cina
+7;pasien 7;negatif;40;"20861926,63";Spanyol
+8;pasien 8;negatif;49;"19178048,23";Amerika
+9;pasien 9;positif;36;"21267997,03";Iran
+10;pasien 10;negatif;13;"41987037,2";Italia
+11;pasien 11;negatif;40;"45333941,95";Italia
+12;pasien 12;negatif;62;"32012418,37";Inggris
+13;pasien 13;positif;23;"58088843,96";Inggris
+14;pasien 14;negatif;75;"6773668,623";Amerika
+15;pasien 15;positif;59;"6950984,514";Inggris
+16;pasien 16;positif;25;"48829283,06";Spanyol
+17;pasien 17;positif;7;"39883908,83";Italia
+18;pasien 18;positif;35;"32316849,25";Amerika
+19;pasien 19;negatif;70;"78783035,16";Amerika
+20;pasien 20;negatif;42;"76117283,36";Amerika
+21;pasien 21;positif;76;"5901938,462";Spanyol
+22;pasien 22;positif;60;"78579921,77";Cina
+23;pasien 23;negatif;46;"65169062,7";Iran
+24;pasien 24;positif;11;"17187899,65";Spanyol
+25;pasien 25;negatif;39;"57145884,03";Amerika
+26;pasien 26;negatif;38;"83804140,23";Spanyol
+27;pasien 27;negatif;37;"29798531,05";Malaysia
+28;pasien 28;negatif;1;"7817744,156";Cina
+29;pasien 29;positif;47;"44863817,86";Iran
+30;pasien 30;negatif;1;"59192221,8";Amerika
+31;pasien 31;negatif;35;"75801640,82";Italia
+32;pasien 32;positif;20;"74791552,89";Cina
+33;pasien 33;negatif;85;"29739737,79";Spanyol
+34;pasien 34;positif;13;"20347224,36";Korea Selatan
+35;pasien 35;positif;85;"58425124,96";Italia
+36;pasien 36;positif;35;"31323589,43";Korea Selatan
+37;pasien 37;positif;56;"65424914,5";Inggris
+38;pasien 38;negatif;40;"48317442,87";Spanyol
+39;pasien 39;positif;64;"65765826,1";Cina
+40;pasien 40;negatif;51;"75830843,55";Iran
+41;pasien 41;positif;49;"73147058,96";Iran
+42;pasien 42;positif;22;"34514307,68";Spanyol
+43;pasien 43;positif;13;"68554138,57";Malaysia
+44;pasien 44;negatif;24;"75763997,43";Inggris
+45;pasien 45;negatif;72;"44198354,08";Amerika
+46;pasien 46;positif;30;"65050140,68";Iran
+47;pasien 47;negatif;13;"50534928,62";Iran
+48;pasien 48;positif;78;"43648022,74";Spanyol
+49;pasien 49;negatif;2;"90391202,42";Spanyol
+50;pasien 50;negatif;84;"43204262,4";Italia
+51;pasien 51;positif;5;"73086227,39";Iran
+52;pasien 52;positif;82;"52389518,57";Spanyol
+53;pasien 53;negatif;78;"70104984,05";Malaysia
+54;pasien 54;negatif;54;"42569802,37";Korea Selatan
+55;pasien 55;negatif;53;"58058959,68";Iran
+56;pasien 56;negatif;58;"87556174,1";Spanyol
+57;pasien 57;positif;44;"16950983,27";Italia
+58;pasien 58;positif;21;"15674376,39";Italia
+59;pasien 59;positif;83;"88410426,36";Amerika
+60;pasien 60;positif;62;"25388526,17";Amerika
+61;pasien 61;positif;74;"29187528,2";Amerika
+62;pasien 62;positif;5;"84125141,77";Amerika
+63;pasien 63;negatif;61;"50187105,76";Cina
+64;pasien 64;positif;9;"6519554,97";Korea Selatan
+65;pasien 65;negatif;70;"72525039,61";Amerika
+66;pasien 66;negatif;15;"33600421,23";Korea Selatan
+67;pasien 67;negatif;27;"92450965,35";Amerika
+68;pasien 68;negatif;83;"55698715,22";Inggris
+69;pasien 69;negatif;21;"13307048,33";Korea Selatan
+70;pasien 70;negatif;7;"16204658,67";Amerika
+71;pasien 71;negatif;70;"64238780,66";Amerika
+72;pasien 72;positif;26;"55964403,52";Malaysia
+73;pasien 73;positif;11;"19819368,2";Cina
+74;pasien 74;positif;61;"21397239,09";Spanyol
+75;pasien 75;negatif;41;"35968018,2";Korea Selatan
+76;pasien 76;negatif;40;"37370925,91";Amerika
+77;pasien 77;positif;30;"70066287,72";Amerika
+78;pasien 78;positif;43;"58092434,96";Spanyol
+79;pasien 79;negatif;46;"82623806,1";Amerika
+80;pasien 80;positif;5;"29822146,07";Spanyol
+81;pasien 81;positif;79;"100400101,2";Spanyol
+82;pasien 82;negatif;33;"10416118,58";Iran
+83;pasien 83;positif;67;"65309051,45";Iran
+84;pasien 84;negatif;30;"97760364,3";Cina
+85;pasien 85;negatif;52;"70904970,58";Spanyol
+86;pasien 86;positif;8;"13634016,26";Amerika
+87;pasien 87;positif;34;"96113735,07";Iran
+88;pasien 88;negatif;61;"78491616,5";Iran
+89;pasien 89;negatif;12;"77106538,95";Italia
+90;pasien 90;negatif;16;"69942513,1";Amerika
+91;pasien 91;negatif;10;"61783329,42";Amerika
+92;pasien 92;negatif;85;"63418672,35";Italia
+93;pasien 93;negatif;9;"3389253,031";Malaysia
+94;pasien 94;negatif;62;"30109965,23";Amerika
+95;pasien 95;negatif;36;"78144196,83";Inggris
+96;pasien 96;negatif;24;"39165844,9";Inggris
+97;pasien 97;negatif;41;"9972618,692";Italia
+98;pasien 98;negatif;85;"72100257,19";Amerika
+99;pasien 99;negatif;48;"52135139,93";Italia
+100;pasien 100;positif;48;"68275619,26";Korea Selatan
+101;pasien 101;positif;33;"71664190,27";Korea Selatan
+102;pasien 102;negatif;29;"35653345,1";Italia
+103;pasien 103;positif;34;"82039015,97";Iran
+104;pasien 104;positif;70;"30051639,21";Inggris
+105;pasien 105;positif;6;"57241117,44";Amerika
+106;pasien 106;positif;40;"58028649,58";Spanyol
+107;pasien 107;positif;62;"78110197,49";Inggris
+108;pasien 108;negatif;58;"63949331,33";Amerika
+109;pasien 109;positif;36;"31489926,7";Italia
+110;pasien 110;positif;37;"38217263,48";Spanyol
+111;pasien 111;negatif;68;"8136466,292";Malaysia
+112;pasien 112;positif;76;"41992298,83";Malaysia
+113;pasien 113;negatif;78;"79736148,08";Inggris
+114;pasien 114;positif;85;"98064398,41";Inggris
+115;pasien 115;positif;33;"47309442,23";Cina
+116;pasien 116;positif;42;"16568954,38";Iran
+117;pasien 117;negatif;27;"38237778,74";Amerika
+118;pasien 118;negatif;20;"99824470,05";Amerika
+119;pasien 119;positif;37;"45475380,25";Spanyol
+120;pasien 120;positif;80;"92423199,64";Iran
