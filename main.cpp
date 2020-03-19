@@ -11,7 +11,7 @@ struct NodePemilih{
 };
 struct NodeID{
     string id;
-    struct NodePemilih *dataPemilih;
+    struct NodePemilih *dataPemilih = NULL;
     struct NodePemilih *dataAkhir;
     struct NodeID *next;
 };
@@ -31,10 +31,12 @@ void tampilkan(NodeID *h){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
     }
     else{
-        NodeID *showID = kumpulanID;
+
+        NodeID *showID = h;
         while(showID!=NULL){
             NodePemilih *show = showID->dataPemilih;
              while(show!=NULL){
+                
                 cout<<"Pasien No."<<show->data[0]<<endl;
                 cout<<"Nama: "<<show->data[1]<<endl;
                 cout<<"Diagnosa: "<<show->data[2]<<endl;
@@ -43,7 +45,6 @@ void tampilkan(NodeID *h){
                 cout<<"Negara Kunjungan: "<<show->data[5]<<endl;
                 cout<<endl;
                 show = show->next;
-
             }
             showID = showID->next;
         }
@@ -84,6 +85,7 @@ NodeID *temukanID(string idname){
 //KELOLA NodePemilih
 
 void tambahDataDepan(string row[]){
+
     NodePemilih *baru = new NodePemilih;
     NodeID *pemilihID = kumpulanID;
     baru->data[0] = row[0];
@@ -99,15 +101,17 @@ void tambahDataDepan(string row[]){
     if(cekKosong(kumpulanID)){
         tambahID(row[5]);
         pemilihID = temukanID(row[5]);
-
+        
         pemilihID->dataPemilih = baru;
         pemilihID->dataAkhir = pemilihID->dataPemilih;
+        pemilihID->dataPemilih->next = NULL;
+
     }
     else{
         pemilihID = temukanID(row[5]);
-        
+//        pemilihID->dataPemilih->prev = baru;
         baru->next = pemilihID->dataPemilih;
-        //pemilihID->dataPemilih->prev = baru;
+        
         pemilihID->dataPemilih = baru;
         pemilihID->dataPemilih->prev = NULL;
     }
@@ -198,6 +202,6 @@ void baca_file(){
 
 int main(){
     baca_file();
-    cout<<kumpulanID->dataPemilih->data[5]<<endl;
+    
     tampilkan(kumpulanID);
 }
