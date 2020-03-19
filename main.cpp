@@ -4,27 +4,32 @@
 #include <string>
 using namespace std;
 
-struct Node{
+struct Pemilih{
     string data[6];
-    struct Node *next;
-    struct Node *prev;
+    struct Pemilih *next;
+    struct Pemilih *prev;
+};
+struct ID{
+    string id;
+    struct Pemilih *daftarOrang;
+    struct ID *next;
 };
 
-Node *list = NULL; //NODE UTAMA
-Node *tail = NULL; //ekor
+Pemilih *list = NULL; //Pemilih UTAMA
+Pemilih *tail = NULL; //ekor
 
-int cekKosong(Node *h){
+int cekKosong(Pemilih *h){
     if(h == NULL){
         return 1;
     }
     return 0;
 }
-void tampilkan(Node *h){
+void tampilkan(Pemilih *h){
     if(cekKosong(h)){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
     }
     else{
-        Node *show = h;
+        Pemilih *show = h;
         while(show!=NULL){
             cout<<"Pasien No."<<show->data[0]<<endl;
             cout<<"Nama: "<<show->data[1]<<endl;
@@ -39,7 +44,7 @@ void tampilkan(Node *h){
 }
 
 void tambahDataDepan(string row[]){
-    Node *baru = new Node;
+    Pemilih *baru = new Pemilih;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
     baru->data[2] = row[2];
@@ -62,7 +67,7 @@ void tambahDataDepan(string row[]){
 }
 
 void tambahDataBelakang(string row[]){
-    Node *baru = new Node;
+    Pemilih *baru = new Pemilih;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
     baru->data[2] = row[2];
@@ -94,7 +99,7 @@ void hapusDataDepan(){
         tail = NULL;
     }
     else{
-        Node *hapus = new Node;
+        Pemilih *hapus = new Pemilih;
         hapus = list;
         list = list->next;
         delete hapus;
@@ -111,7 +116,7 @@ void hapusDataBelakang(){
         tail = NULL;
     }
     else{
-        Node *hapus = new Node;
+        Pemilih *hapus = new Pemilih;
         hapus = tail;
         tail = tail->prev;
         tail->next = NULL;
