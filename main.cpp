@@ -50,9 +50,7 @@ void tambahDataDepan(string row[]){
     baru->next = NULL;
 
     if(cekKosong(list)){
-        cout<<baru->data[1]<<endl;
         list=baru;
-        cout<<list->data[1]<<endl;
         tail=list;
     }
     else{
