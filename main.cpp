@@ -7,7 +7,6 @@ using namespace std;
 struct Node{
     string data[6];
     struct Node *next;
-    struct Node *prev;
 };
 
 Node *list = NULL; //NODE UTAMA
@@ -46,7 +45,7 @@ void tambahDataDepan(string row[]){
     baru->data[3] = row[3];
     baru->data[4] = row[4];
     baru->data[5] = row[5];
-    baru->prev = NULL;
+
     baru->next = NULL;
 
     if(cekKosong(list)){
@@ -56,7 +55,7 @@ void tambahDataDepan(string row[]){
     else{
         baru->next = list;
         list = baru;
-        list->prev = NULL;
+
     }
 
 }
@@ -69,7 +68,6 @@ void tambahDataBelakang(string row[]){
     baru->data[3] = row[3];
     baru->data[4] = row[4];
     baru->data[5] = row[5];
-    baru->prev = NULL;
     baru->next = NULL;
 
     if(cekKosong(list)){
@@ -77,7 +75,6 @@ void tambahDataBelakang(string row[]){
         tail = list;
     }
     else{
-        baru->prev = tail;
         tail->next = baru;
         tail = baru;
     }
@@ -112,8 +109,14 @@ void hapusDataBelakang(){
     }
     else{
         Node *hapus = new Node;
+        Node *susur =new Node;
+        susur = list;
         hapus = tail;
-        tail = tail->prev;
+        while(susur->next->next!=NULL){
+            susur =susur->next;    
+        }
+        
+        tail = susur;
         tail->next = NULL;
         delete hapus;
     }
