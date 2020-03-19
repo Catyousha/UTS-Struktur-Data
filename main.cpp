@@ -14,6 +14,13 @@ struct Node{
 
 Node *tail = NULL;
 
+int cekKosong(Node *h){
+    if(h == NULL){
+        return 1;
+    }
+    return 0;
+}
+
 void tambahDataDepan(Node *h, vector<string>&row){
     Node *baru = new Node;
     baru->data[0] = row[0];
