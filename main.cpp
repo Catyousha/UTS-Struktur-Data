@@ -5,7 +5,7 @@
 using namespace std;
 
 struct Node{
-    string data[5];
+    string data[6];
     struct Node *next;
     struct Node *prev;
 };
@@ -39,7 +39,7 @@ void tampilkan(Node *h){
     }
 }
 
-void tambahDataDepan(Node *h, string row[]){
+void tambahDataDepan(string row[]){
     Node *baru = new Node;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
@@ -49,16 +49,17 @@ void tambahDataDepan(Node *h, string row[]){
     baru->prev = NULL;
     baru->next = NULL;
 
-    if(cekKosong(h)){
-        cout<<"Data pertama ditambahkan"<<endl;
-        h=baru;
-        tail=h;
+    if(cekKosong(list)){
+        cout<<baru->data[1]<<endl;
+        list=baru;
+        cout<<list->data[1]<<endl;
+        tail=list;
     }
     else{
         cout<<"Data ditambahkan"<<endl;
-        baru->next = h;
-        h = baru;
-        h->prev = NULL;
+        baru->next = list;
+        list = baru;
+        list->prev = NULL;
     }
 
 }
@@ -71,13 +72,14 @@ void baca_file(){
     string line, word, temp;
 
     while(getline(report, line)){
-        string row[5]; int rowIndex=0;
+        string row[6]; int rowIndex=0;
         istringstream iss(line);
 
         while(getline(iss, word, ';')){
             row[rowIndex]=word;
+            rowIndex++;
         }
-        tambahDataDepan(list, row);
+        tambahDataDepan(row);
     }
 }
 
