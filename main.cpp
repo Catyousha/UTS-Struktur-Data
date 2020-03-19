@@ -83,12 +83,53 @@ void tambahDataBelakang(string row[]){
     }
 }
 
+void hapusDataDepan(){
+    if(cekKosong(list)){
+        cout<<"Tidak ada data untuk dihapus!"<<endl;
+        return;
+    }
+
+    if(list->next == NULL){
+        list = NULL;
+        tail = NULL;
+    }
+    else{
+        Node *hapus = new Node;
+        hapus = list;
+        list = list->next;
+        delete hapus;
+    }
+}
+
+void hapusDataBelakang(){
+    if(cekKosong(list)){
+        cout<<"Tidak ada data untuk dihapus!"<<endl;
+    }
+
+    if(list->next == NULL){
+        list = NULL;
+        tail = NULL;
+    }
+    else{
+        Node *hapus = new Node;
+        hapus = tail;
+        tail = tail->prev;
+        tail->next = NULL;
+        delete hapus;
+    }
+}
+
+void hapusSemua(){
+    while(!cekKosong(list)){
+        hapusDataDepan();
+    }
+}
+
 void baca_file(){
     fstream report;
     report.open("contohdatauts.csv", ios::in);
     
-    //vector<string>row;
-    string line, word, temp;
+    string line, word;
 
     while(getline(report, line)){
         string row[6]; int rowIndex=0;
@@ -104,5 +145,7 @@ void baca_file(){
 
 int main(){
     baca_file();
+    hapusDataDepan();
+    hapusDataBelakang();
     tampilkan(list);
 }
