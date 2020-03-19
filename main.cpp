@@ -1,18 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 #include <sstream>
 #include <string>
-#include <vector>
 using namespace std;
 
 struct Node{
-    string data[4];
+    string data[5];
     struct Node *next;
     struct Node *prev;
 };
 
-Node *tail = NULL;
+Node *list = NULL; //node utama
+Node *tail = NULL; //ekor
 
 int cekKosong(Node *h){
     if(h == NULL){
@@ -21,7 +20,26 @@ int cekKosong(Node *h){
     return 0;
 }
 
-void tambahDataDepan(Node *h, vector<string>&row){
+void tampilkan(Node *h){
+    if(cekKosong(h)){
+        cout<<"Tidak ada data untuk ditampilkan!"<<endl;
+    }
+    else{
+        Node *show = h;
+        while(show!=NULL){
+            cout<<"Pasien No."<<show->data[0]<<endl;
+            cout<<"Nama: "<<show->data[1]<<endl;
+            cout<<"Diagnosa: "<<show->data[2]<<endl;
+            cout<<"Usia: "<<show->data[3]<<endl;
+            cout<<"Biaya Pengobatan: Rp."<<show->data[4]<<endl;
+            cout<<"Negara Kunjungan: "<<show->data[5]<<endl;
+            cout<<endl;
+            show = show->next;
+        }
+    }
+}
+
+void tambahDataDepan(Node *h, string row[]){
     Node *baru = new Node;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
@@ -31,36 +49,39 @@ void tambahDataDepan(Node *h, vector<string>&row){
     baru->prev = NULL;
     baru->next = NULL;
 
+    if(cekKosong(h)){
+        cout<<"Data pertama ditambahkan"<<endl;
+        h=baru;
+        tail=h;
+    }
+    else{
+        cout<<"Data ditambahkan"<<endl;
+        baru->next = h;
+        h = baru;
+        h->prev = NULL;
+    }
+
 }
 
 void baca_file(){
     fstream report;
     report.open("contohdatauts.csv", ios::in);
     
-    vector<string>row;
+    //vector<string>row;
     string line, word, temp;
 
     while(getline(report, line)){
-        row.clear();
+        string row[5]; int rowIndex=0;
         istringstream iss(line);
 
         while(getline(iss, word, ';')){
-            row.push_back(word);
+            row[rowIndex]=word;
         }
-        string biaya = row[4];
-        biaya.erase(std::remove(biaya.begin(),biaya.end(),'\"'),biaya.end()); //hapus tanda kutip di data bapaknya
-            cout<<"Pasien No."<<stoi(row[0])<<endl;
-            cout<<"Nama: "<<row[1]<<endl;
-            cout<<"Diagnosa: "<<row[2]<<endl;
-            cout<<"Usia: "<<stoi(row[3])<<endl;
-            cout<<"Biaya Pengobatan: Rp."<<biaya<<endl;
-            cout<<"Negara Kunjungan: "<<row[5]<<endl;
-            cout<<endl;
-        
+        tambahDataDepan(list, row);
     }
 }
 
 int main(){
-    Node *list = NULL;
     baca_file();
+    tampilkan(list);
 }
