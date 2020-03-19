@@ -4,70 +4,118 @@
 #include <string>
 using namespace std;
 
-struct Pemilih{
+struct NodePemilih{
     string data[6];
-    struct Pemilih *next;
-    struct Pemilih *prev;
+    struct NodePemilih *next;
+    struct NodePemilih *prev;
 };
-struct ID{
+struct NodeID{
     string id;
-    struct Pemilih *daftarOrang;
-    struct ID *next;
+    struct NodePemilih *dataPemilih;
+    struct NodePemilih *dataAkhir;
+    struct NodeID *next;
 };
 
-Pemilih *list = NULL; //Pemilih UTAMA
-Pemilih *tail = NULL; //ekor
+NodeID *kumpulanID = NULL; //Kumpulan NodeID
+NodeID *IDAkhir = NULL; //tail pada node kumpulanID
 
-int cekKosong(Pemilih *h){
+int cekKosong(NodeID *h){
     if(h == NULL){
         return 1;
     }
     return 0;
 }
-void tampilkan(Pemilih *h){
+
+void tampilkan(NodeID *h){
     if(cekKosong(h)){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
     }
     else{
-        Pemilih *show = h;
-        while(show!=NULL){
-            cout<<"Pasien No."<<show->data[0]<<endl;
-            cout<<"Nama: "<<show->data[1]<<endl;
-            cout<<"Diagnosa: "<<show->data[2]<<endl;
-            cout<<"Usia: "<<show->data[3]<<endl;
-            cout<<"Biaya Pengobatan: Rp."<<show->data[4]<<endl;
-            cout<<"Negara Kunjungan: "<<show->data[5]<<endl;
-            cout<<endl;
-            show = show->next;
+        NodeID *showID = kumpulanID;
+        while(showID!=NULL){
+            NodePemilih *show = showID->dataPemilih;
+             while(show!=NULL){
+                cout<<"Pasien No."<<show->data[0]<<endl;
+                cout<<"Nama: "<<show->data[1]<<endl;
+                cout<<"Diagnosa: "<<show->data[2]<<endl;
+                cout<<"Usia: "<<show->data[3]<<endl;
+                cout<<"Biaya Pengobatan: Rp."<<show->data[4]<<endl;
+                cout<<"Negara Kunjungan: "<<show->data[5]<<endl;
+                cout<<endl;
+                show = show->next;
+
+            }
+            showID = showID->next;
         }
     }
 }
 
+//kelola NodeID
+
+//tambah data di belakang NodeID
+void tambahID(string idname){
+    NodeID *idbaru = new NodeID;
+    idbaru->id = idname;
+    idbaru->next = NULL;
+
+    if(kumpulanID == NULL){
+        kumpulanID = idbaru;
+        IDAkhir = kumpulanID;    
+    }
+    else{
+        IDAkhir->next = idbaru;
+        IDAkhir = idbaru;
+    }
+}
+
+//cari suatu ID
+NodeID *temukanID(string idname){
+    NodeID *d = kumpulanID;
+    while(d!=NULL){
+        if(d->id == idname){
+            return d;
+        }
+        d = d->next;
+    }
+    tambahID(idname);
+    return temukanID(idname);
+}
+
+//KELOLA NodePemilih
+
 void tambahDataDepan(string row[]){
-    Pemilih *baru = new Pemilih;
+    NodePemilih *baru = new NodePemilih;
+    NodeID *pemilihID = kumpulanID;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
     baru->data[2] = row[2];
     baru->data[3] = row[3];
     baru->data[4] = row[4];
-    baru->data[5] = row[5];
+    baru->data[5] = row[5]; //asal
+
     baru->prev = NULL;
     baru->next = NULL;
 
-    if(cekKosong(list)){
-        list=baru;
-        tail=list;
+    if(cekKosong(kumpulanID)){
+        tambahID(row[5]);
+        pemilihID = temukanID(row[5]);
+
+        pemilihID->dataPemilih = baru;
+        pemilihID->dataAkhir = pemilihID->dataPemilih;
     }
     else{
-        baru->next = list;
-        list = baru;
-        list->prev = NULL;
+        pemilihID = temukanID(row[5]);
+        
+        baru->next = pemilihID->dataPemilih;
+        //pemilihID->dataPemilih->prev = baru;
+        pemilihID->dataPemilih = baru;
+        pemilihID->dataPemilih->prev = NULL;
     }
 
 }
-
+/*
 void tambahDataBelakang(string row[]){
-    Pemilih *baru = new Pemilih;
+    NodePemilih *baru = new NodePemilih;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
     baru->data[2] = row[2];
@@ -99,7 +147,7 @@ void hapusDataDepan(){
         tail = NULL;
     }
     else{
-        Pemilih *hapus = new Pemilih;
+        NodePemilih *hapus = new NodePemilih;
         hapus = list;
         list = list->next;
         delete hapus;
@@ -116,7 +164,7 @@ void hapusDataBelakang(){
         tail = NULL;
     }
     else{
-        Pemilih *hapus = new Pemilih;
+        NodePemilih *hapus = new NodePemilih;
         hapus = tail;
         tail = tail->prev;
         tail->next = NULL;
@@ -129,7 +177,7 @@ void hapusSemua(){
         hapusDataDepan();
     }
 }
-
+*/
 void baca_file(){
     fstream report;
     report.open("contohdatauts.csv", ios::in);
@@ -144,13 +192,12 @@ void baca_file(){
             row[rowIndex]=word;
             rowIndex++;
         }
-        tambahDataBelakang(row);
+        tambahDataDepan(row);
     }
 }
 
 int main(){
     baca_file();
-    hapusDataDepan();
-    hapusDataBelakang();
-    tampilkan(list);
+    cout<<kumpulanID->dataPemilih->data[5]<<endl;
+    tampilkan(kumpulanID);
 }
