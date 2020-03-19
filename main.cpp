@@ -10,7 +10,7 @@ struct Node{
     struct Node *prev;
 };
 
-Node *list = NULL; //node utama
+Node *list = NULL; //NODE UTAMA
 Node *tail = NULL; //ekor
 
 int cekKosong(Node *h){
@@ -19,7 +19,6 @@ int cekKosong(Node *h){
     }
     return 0;
 }
-
 void tampilkan(Node *h){
     if(cekKosong(h)){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
@@ -46,6 +45,7 @@ void tambahDataDepan(string row[]){
     baru->data[2] = row[2];
     baru->data[3] = row[3];
     baru->data[4] = row[4];
+    baru->data[5] = row[5];
     baru->prev = NULL;
     baru->next = NULL;
 
@@ -54,12 +54,33 @@ void tambahDataDepan(string row[]){
         tail=list;
     }
     else{
-        cout<<"Data ditambahkan"<<endl;
         baru->next = list;
         list = baru;
         list->prev = NULL;
     }
 
+}
+
+void tambahDataBelakang(string row[]){
+    Node *baru = new Node;
+    baru->data[0] = row[0];
+    baru->data[1] = row[1];
+    baru->data[2] = row[2];
+    baru->data[3] = row[3];
+    baru->data[4] = row[4];
+    baru->data[5] = row[5];
+    baru->prev = NULL;
+    baru->next = NULL;
+
+    if(cekKosong(list)){
+        list = baru;
+        tail = list;
+    }
+    else{
+        baru->prev = tail;
+        tail->next = baru;
+        tail = baru;
+    }
 }
 
 void baca_file(){
@@ -77,7 +98,7 @@ void baca_file(){
             row[rowIndex]=word;
             rowIndex++;
         }
-        tambahDataDepan(row);
+        tambahDataBelakang(row);
     }
 }
 
