@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -35,24 +36,34 @@ void tampilkan(){
         NodeID *showID = kumpulanID;
         while(showID!=NULL){
             NodePemilih *show = showID->dataPemilih;
+                cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
+                cout<<"| No."<<setfill(' ')<<setw(3)
+                    <<"|"<<" Nama"<<setw(10)
+                    <<"|"<<" Diagnosa"<<setw(6)
+                    <<"|"<<"Usia"<<setw(2)
+                    <<"|"<<" Biaya"<<setw(17)
+                    <<"|"<<" Asal Negara"<<setw(8)<<"|"<<endl;
+                cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
              while(show!=NULL){
-                
-                cout<<"Pasien No."<<show->data[0]<<endl;
-                cout<<"Nama: "<<show->data[1]<<endl;
-                cout<<"Diagnosa: "<<show->data[2]<<endl;
-                cout<<"Usia: "<<show->data[3]<<endl;
-                cout<<"Biaya Pengobatan: Rp."<<show->data[4]<<endl;
-                cout<<"Negara Kunjungan: "<<show->data[5]<<endl;
+
+                 cout<<setfill(' ');
+                cout<<"| "<<show->data[0]<<setw(6-show->data[0].length())
+                    <<"|"<<show->data[1]<<setw(15-show->data[1].length())
+                    <<"|"<<show->data[2]<<setw(15-show->data[2].length())
+                    <<"|"<<show->data[3]<<setw(6-show->data[3].length())
+                    <<"|"<<"Rp."<<show->data[4]<<setw(20-show->data[4].length())
+                    <<"|"<<show->data[5]<<setw(20-show->data[5].length())<<"|";
                 cout<<endl;
                 show = show->next;
             }
             showID = showID->next;
         }
+        
+        cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
     }
 }
 
-//kelola NodeID
-
+//KELOLA NodeID
 //tambah data di belakang NodeID
 void tambahID(string idname){
     NodeID *idbaru = new NodeID;
@@ -69,17 +80,7 @@ void tambahID(string idname){
     }
 }
 
-//cari suatu ID, jika ketemu maka kembalikan node id tersebut
-NodeID *dapatkanNodeID(string idname){
-    NodeID *d = kumpulanID;
-    while(d!=NULL){
-        if(d->id == idname){
-            return d;
-        }
-        d = d->next;
-    }
-}
-
+//pencarian
 //cari suatu ID, jika tidak ketemu maka kembalikan false
 int temukanID(string idname){
     NodeID *d = kumpulanID;
@@ -91,6 +92,17 @@ int temukanID(string idname){
     }
     return 0;
 }
+//cari suatu ID, jika ketemu maka kembalikan node id tersebut
+NodeID *dapatkanNodeID(string idname){
+    NodeID *d = kumpulanID;
+    while(d!=NULL){
+        if(d->id == idname){
+            return d;
+        }
+        d = d->next;
+    }
+}
+
 
 //hapus ID
 //temukan idname kemudian hapus node yang mengandung idname tersebut
@@ -119,7 +131,7 @@ void hapusID(string idname){
 }
 
 //KELOLA NodePemilih
-
+//fungsi penambahan
 void tambahDataDepan(string row[]){
 
     NodePemilih *baru = new NodePemilih;
@@ -162,7 +174,7 @@ void tambahDataBelakang(string row[]){
     baru->data[2] = row[2];
     baru->data[3] = row[3];
     baru->data[4] = row[4];
-    baru->data[5] = row[5];
+    baru->data[5] = string(row[5]);
     baru->prev = NULL;
     baru->next = NULL;
     
@@ -184,6 +196,7 @@ void tambahDataBelakang(string row[]){
     }
 }
 
+//fungsi penghapusan
 void hapusDataDepan(string idname){
     
     if(temukanID(idname) == 0){
@@ -208,7 +221,6 @@ void hapusDataDepan(string idname){
         delete hapus;
     }
 }
-
 
 void hapusDataBelakang(string idname){
     if(temukanID(idname) == 0){
@@ -244,7 +256,7 @@ void baca_file(){
     string line, word;
 
     while(getline(report, line)){
-        string row[6]; int rowIndex=0;
+        string row[7]; int rowIndex=0;
         istringstream iss(line);
 
         while(getline(iss, word, ';')){
@@ -258,6 +270,6 @@ void baca_file(){
 int main(){
     baca_file();
     
-    hapusSemua();
+    
     tampilkan();
 }
