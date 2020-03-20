@@ -69,8 +69,8 @@ void tambahID(string idname){
     }
 }
 
-//cari suatu ID
-NodeID *temukanID(string idname){
+//cari suatu ID, jika ketemu maka kembalikan node id tersebut
+NodeID *dapatkanNodeID(string idname){
     NodeID *d = kumpulanID;
     while(d!=NULL){
         if(d->id == idname){
@@ -78,8 +78,44 @@ NodeID *temukanID(string idname){
         }
         d = d->next;
     }
-    tambahID(idname);
-    return temukanID(idname);
+}
+
+//cari suatu ID, jika tidak ketemu maka kembalikan false
+int temukanID(string idname){
+    NodeID *d = kumpulanID;
+    while(d!=NULL){
+        if(d->id == idname){
+            return 1;
+        }
+        d = d->next;
+    }
+    return 0;
+}
+
+//hapus ID
+//temukan idname kemudian hapus node yang mengandung idname tersebut
+void hapusID(string idname){
+    if(temukanID(idname) == 1){
+        
+        //jika id yang dihapus ialah id pertama
+        if(kumpulanID->id == idname){
+            NodeID *hapus = kumpulanID;
+            kumpulanID = kumpulanID->next;
+            delete hapus;
+        }
+        else{
+            NodeID *d = kumpulanID;
+            while(d->next->id!=idname){
+                d=d->next;
+            }
+            NodeID *hapus = d->next;
+            d->next = d->next->next;
+            delete hapus;
+        }
+    }
+    else{
+        return;
+    }
 }
 
 //KELOLA NodePemilih
@@ -98,7 +134,10 @@ void tambahDataDepan(string row[]){
     baru->prev = NULL;
     baru->next = NULL;
     
-    pemilihID = temukanID(row[5]);
+    if(temukanID(row[5]) == 0){
+        tambahID(row[5]);
+    }
+    pemilihID = dapatkanNodeID(row[5]);
     if(cekKosong(pemilihID->dataPemilih)){
 
         pemilihID->dataPemilih = baru;
@@ -127,7 +166,10 @@ void tambahDataBelakang(string row[]){
     baru->prev = NULL;
     baru->next = NULL;
     
-    pemilihID = temukanID(row[5]);
+    if(temukanID(row[5]) == 0){
+        tambahID(row[5]);
+    }
+    pemilihID = dapatkanNodeID(row[5]);
     if(cekKosong(pemilihID->dataPemilih)){
         
         pemilihID->dataPemilih = baru;
@@ -141,49 +183,60 @@ void tambahDataBelakang(string row[]){
         pemilihID->dataAkhir = baru;
     }
 }
-/* 
-void hapusDataDepan(){
-    if(cekKosong(list)){
-        cout<<"Tidak ada data untuk dihapus!"<<endl;
+
+void hapusDataDepan(string idname){
+    
+    if(temukanID(idname) == 0){
+        cout<<"ID tidak ditemukan!"<<endl;
+        return;
+    }
+    NodeID *pemilihID = dapatkanNodeID(idname);
+        
+    if(cekKosong(pemilihID->dataPemilih)){
+        cout<<"Tidak ditemukan data pemilih untuk dihapus!"<<endl;
         return;
     }
 
-    if(list->next == NULL){
-        list = NULL;
-        tail = NULL;
+    if(pemilihID->dataPemilih->next == NULL){
+        pemilihID->dataPemilih = NULL;
+        pemilihID->dataAkhir = NULL;
     }
     else{
         NodePemilih *hapus = new NodePemilih;
-        hapus = list;
-        list = list->next;
+        hapus = pemilihID->dataPemilih;
+        pemilihID->dataPemilih = pemilihID->dataPemilih->next;
         delete hapus;
     }
 }
 
-void hapusDataBelakang(){
-    if(cekKosong(list)){
-        cout<<"Tidak ada data untuk dihapus!"<<endl;
-    }
 
-    if(list->next == NULL){
-        list = NULL;
-        tail = NULL;
+void hapusDataBelakang(string idname){
+    if(temukanID(idname) == 0){
+        cout<<"ID tidak ditemukan!"<<endl;
+        return;
+    }
+    NodeID *pemilihID = dapatkanNodeID(idname);
+
+    if(pemilihID->dataPemilih->next == NULL){
+        pemilihID->dataPemilih = NULL;
+        pemilihID->dataAkhir = NULL;
     }
     else{
         NodePemilih *hapus = new NodePemilih;
-        hapus = tail;
-        tail = tail->prev;
-        tail->next = NULL;
+        hapus = pemilihID->dataAkhir;
+        pemilihID->dataAkhir = pemilihID->dataAkhir->prev;
+        pemilihID->dataAkhir->next = NULL;
         delete hapus;
     }
 }
 
+//hapus SEMUA data
 void hapusSemua(){
-    while(!cekKosong(list)){
-        hapusDataDepan();
+    while(kumpulanID!=NULL){
+        hapusID(kumpulanID->id);
     }
 }
-*/
+
 void baca_file(){
     fstream report;
     report.open("contohdatauts.csv", ios::in);
@@ -205,5 +258,6 @@ void baca_file(){
 int main(){
     baca_file();
     
+    hapusSemua();
     tampilkan();
 }
