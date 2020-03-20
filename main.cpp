@@ -165,16 +165,16 @@ void hapusID(string idname){
 //KELOLA NodePemilih
 //fungsi pencarian dengan asumsi id ada.
 int cariData(string caridata, string idname){
+    
     NodeID *ID = dapatkanNodeID(idname);
-    while(ID->dataPemilih->data[0]!=caridata and ID->dataPemilih!=NULL){
-        ID->dataPemilih = ID->dataPemilih->next;
+    NodePemilih *cari = ID->dataPemilih;
+    while(cari!=NULL){
+        if(cari->data[0] == caridata){
+            return 1;
+        }
+        cari = cari->next;
     }
-    if(ID->dataPemilih==NULL){
-        return 0;
-    }
-    else{
-        return 1;
-    }
+    return 0;
 }
 
 //fungsi penambahan
@@ -239,12 +239,20 @@ void tambahDataTengah(string row[], string dataid, string idname){
         baru->prev = NULL;
         baru->next = NULL;
 
-        while(ID->dataPemilih->data[0]!=dataid){
-            ID->dataPemilih = ID->dataPemilih->next;
+        NodePemilih *bantu = ID->dataPemilih;
+        while(bantu->data[0]!=dataid){
+            bantu = bantu->next;
         }
-        ID->dataPemilih->prev->next = baru;
-        baru->next = ID->dataPemilih;
-        ID->dataPemilih->prev = baru;
+        bantu->prev->next = baru;
+        baru->next = bantu;
+        bantu->prev = baru;
+
+        //jika yang menjadi data acuan adalah tail
+        //maka sambungkan tail dengan data baru
+        if(bantu = ID->dataAkhir){
+            ID->dataAkhir->prev = baru;
+            baru->next = ID->dataAkhir;
+        }
     }
 }
 
@@ -324,6 +332,43 @@ void hapusDataBelakang(string idname){
     }
 }
 
+void hapusDataTengah(string idname, string dataid){
+    if(cariData(dataid, idname)== 0){
+        cout<<"Data pemilih dengan id "<<dataid<<" tidak ditemukan!"<<endl;
+        return;        
+    }
+    else{
+        NodeID *ID = dapatkanNodeID(idname);
+        //kalau data yang ingin dihapus ada di depan, alihkan ke fungsi hapusDataDepan
+        if(dataid == ID->dataPemilih->data[0]){
+            hapusDataDepan(idname);
+            return;
+        }
+
+        //kalau data yang ingin dihapus ada di belakang, alihkan ke fungsi hapusDataBelakang
+        if(dataid == ID->dataAkhir->data[0]){
+            hapusDataBelakang(idname);
+            return;
+        }
+
+        NodePemilih *bantu = ID->dataPemilih;
+        while(bantu->data[0]!=dataid){
+            bantu = bantu->next;
+        }
+
+        NodePemilih *hapus = bantu;
+        bantu->next->prev = bantu;
+        bantu->prev->next = bantu->next;
+        delete hapus;
+        
+        //kaitkan tail dengan data sebelumnya jika tail berada setelah data yang akan dihapus
+        if(bantu->next == ID->dataAkhir){
+            bantu->next = ID->dataAkhir;
+            ID->dataAkhir->prev = bantu;
+        }
+    }
+}
+
 //hapus SEMUA data
 void hapusSemua(){
     while(kumpulanID!=NULL){
@@ -354,4 +399,9 @@ int main(){
     
     
     tampilkanDataId("Inggris");
+    string i; cin>>i;
+    hapusDataTengah("Inggris",i);
+    
+    tampilkanDataId("Inggris");
+
 }
