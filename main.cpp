@@ -27,6 +27,7 @@ int cekKosong(NodePemilih *h){
     return 0;
 }
 
+//tampilkan SEMUA data
 void tampilkan(){
     if(kumpulanID == NULL){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
@@ -46,7 +47,7 @@ void tampilkan(){
                 cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
              while(show!=NULL){
 
-                 cout<<setfill(' ');
+                cout<<setfill(' ');
                 cout<<"| "<<show->data[0]<<setw(6-show->data[0].length())
                     <<"|"<<show->data[1]<<setw(15-show->data[1].length())
                     <<"|"<<show->data[2]<<setw(15-show->data[2].length())
@@ -62,6 +63,7 @@ void tampilkan(){
         cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
     }
 }
+
 
 //KELOLA NodeID
 //tambah data di belakang NodeID
@@ -92,6 +94,7 @@ int temukanID(string idname){
     }
     return 0;
 }
+
 //cari suatu ID, jika ketemu maka kembalikan node id tersebut
 NodeID *dapatkanNodeID(string idname){
     NodeID *d = kumpulanID;
@@ -103,6 +106,35 @@ NodeID *dapatkanNodeID(string idname){
     }
 }
 
+//tampilkan data hanya berdasarkan id
+void tampilkanDataId(string idname){
+    if(temukanID(idname) == 0){
+        cout<<"ID tidak ditemukan!"<<endl;
+        return;
+    }
+    NodeID *id = dapatkanNodeID(idname);
+    NodePemilih *show = id->dataPemilih;
+    cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
+        cout<<"| No."<<setfill(' ')<<setw(3)
+        <<"|"<<" Nama"<<setw(10)
+        <<"|"<<" Diagnosa"<<setw(6)
+        <<"|"<<"Usia"<<setw(2)
+        <<"|"<<" Biaya"<<setw(17)
+        <<"|"<<" Asal Negara"<<setw(8)<<"|"<<endl;
+    cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
+    while(show!=NULL){
+        cout<<setfill(' ');
+        cout<<"| "<<show->data[0]<<setw(6-show->data[0].length())
+            <<"|"<<show->data[1]<<setw(15-show->data[1].length())
+            <<"|"<<show->data[2]<<setw(15-show->data[2].length())
+            <<"|"<<show->data[3]<<setw(6-show->data[3].length())
+            <<"|"<<"Rp."<<show->data[4]<<setw(20-show->data[4].length())
+            <<"|"<<show->data[5]<<setw(20-show->data[5].length())<<"|";
+        cout<<endl;
+        show = show->next;
+    }
+    cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
+}
 
 //hapus ID
 //temukan idname kemudian hapus node yang mengandung idname tersebut
@@ -131,6 +163,20 @@ void hapusID(string idname){
 }
 
 //KELOLA NodePemilih
+//fungsi pencarian dengan asumsi id ada.
+int cariData(string caridata, string idname){
+    NodeID *ID = dapatkanNodeID(idname);
+    while(ID->dataPemilih->data[0]!=caridata and ID->dataPemilih!=NULL){
+        ID->dataPemilih = ID->dataPemilih->next;
+    }
+    if(ID->dataPemilih==NULL){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
 //fungsi penambahan
 void tambahDataDepan(string row[]){
 
@@ -164,6 +210,42 @@ void tambahDataDepan(string row[]){
         pemilihID->dataPemilih->prev = NULL;
     }
 
+}
+
+//dataid = data yang menjadi acuan user
+//idname = id dimana data tersebut berada
+//data akan disisipkan sebelum data dengan id 'dataid'
+void tambahDataTengah(string row[], string dataid, string idname){
+    if(cariData(dataid,idname)==0){
+        cout<<"Data pemilih dengan id "<<dataid<<" tidak ditemukan!"<<endl;
+        return;
+    }
+    else{
+        NodeID *ID = dapatkanNodeID(idname);
+        //kalau data acuan berada didepan, maka alihkan ke fungsi tambah depan
+        if(dataid == ID->dataPemilih->data[0]){
+            tambahDataDepan(row);
+            return;
+        }
+
+        NodePemilih *baru = new NodePemilih;
+        baru->data[0] = row[0];
+        baru->data[1] = row[1];
+        baru->data[2] = row[2];
+        baru->data[3] = row[3];
+        baru->data[4] = row[4];
+        baru->data[5] = row[5]; //asal
+
+        baru->prev = NULL;
+        baru->next = NULL;
+
+        while(ID->dataPemilih->data[0]!=dataid){
+            ID->dataPemilih = ID->dataPemilih->next;
+        }
+        ID->dataPemilih->prev->next = baru;
+        baru->next = ID->dataPemilih;
+        ID->dataPemilih->prev = baru;
+    }
 }
 
 void tambahDataBelakang(string row[]){
@@ -271,5 +353,5 @@ int main(){
     baca_file();
     
     
-    tampilkan();
+    tampilkanDataId("Inggris");
 }
