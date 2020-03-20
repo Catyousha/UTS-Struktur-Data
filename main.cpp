@@ -12,27 +12,27 @@ struct NodePemilih{
 struct NodeID{
     string id;
     struct NodePemilih *dataPemilih = NULL;
-    struct NodePemilih *dataAkhir;
+    struct NodePemilih *dataAkhir = NULL;
     struct NodeID *next;
 };
 
 NodeID *kumpulanID = NULL; //Kumpulan NodeID
 NodeID *IDAkhir = NULL; //tail pada node kumpulanID
 
-int cekKosong(NodeID *h){
+int cekKosong(NodePemilih *h){
     if(h == NULL){
         return 1;
     }
     return 0;
 }
 
-void tampilkan(NodeID *h){
-    if(cekKosong(h)){
+void tampilkan(){
+    if(kumpulanID == NULL){
         cout<<"Tidak ada data untuk ditampilkan!"<<endl;
     }
     else{
 
-        NodeID *showID = h;
+        NodeID *showID = kumpulanID;
         while(showID!=NULL){
             NodePemilih *show = showID->dataPemilih;
              while(show!=NULL){
@@ -97,19 +97,16 @@ void tambahDataDepan(string row[]){
 
     baru->prev = NULL;
     baru->next = NULL;
+    
+    pemilihID = temukanID(row[5]);
+    if(cekKosong(pemilihID->dataPemilih)){
 
-    if(cekKosong(kumpulanID)){
-        tambahID(row[5]);
-        pemilihID = temukanID(row[5]);
-        
         pemilihID->dataPemilih = baru;
         pemilihID->dataAkhir = pemilihID->dataPemilih;
         pemilihID->dataPemilih->next = NULL;
 
     }
     else{
-        pemilihID = temukanID(row[5]);
-//        pemilihID->dataPemilih->prev = baru;
         baru->next = pemilihID->dataPemilih;
         
         pemilihID->dataPemilih = baru;
@@ -117,9 +114,10 @@ void tambahDataDepan(string row[]){
     }
 
 }
-/*
+
 void tambahDataBelakang(string row[]){
     NodePemilih *baru = new NodePemilih;
+    NodeID *pemilihID = kumpulanID;
     baru->data[0] = row[0];
     baru->data[1] = row[1];
     baru->data[2] = row[2];
@@ -128,18 +126,22 @@ void tambahDataBelakang(string row[]){
     baru->data[5] = row[5];
     baru->prev = NULL;
     baru->next = NULL;
+    
+    pemilihID = temukanID(row[5]);
+    if(cekKosong(pemilihID->dataPemilih)){
+        
+        pemilihID->dataPemilih = baru;
+        pemilihID->dataAkhir = pemilihID->dataPemilih;
+        
 
-    if(cekKosong(list)){
-        list = baru;
-        tail = list;
     }
     else{
-        baru->prev = tail;
-        tail->next = baru;
-        tail = baru;
+        pemilihID->dataAkhir->next = baru;
+        baru->prev = pemilihID->dataAkhir;
+        pemilihID->dataAkhir = baru;
     }
 }
-
+/* 
 void hapusDataDepan(){
     if(cekKosong(list)){
         cout<<"Tidak ada data untuk dihapus!"<<endl;
@@ -196,12 +198,12 @@ void baca_file(){
             row[rowIndex]=word;
             rowIndex++;
         }
-        tambahDataDepan(row);
+        tambahDataBelakang(row);
     }
 }
 
 int main(){
     baca_file();
     
-    tampilkan(kumpulanID);
+    tampilkan();
 }
