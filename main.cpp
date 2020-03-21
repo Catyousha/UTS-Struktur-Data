@@ -35,39 +35,67 @@ void tampilkan(){
     else{
 
         NodeID *showID = kumpulanID;
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
+        cout<<"| ID"<<setfill(' ')<<setw(13)
+            <<"|"<<" Nama"<<setw(10)
+            <<"|"<<" Asal Kota"<<setw(19)
+            <<"|"<<" JK"<<setw(2)
+            <<"|"<<" Pil. Capres"<<setw(3)
+            <<"|"<<" Donasi"<<setw(16)<<"|"<<endl;
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
         while(showID!=NULL){
             NodePemilih *show = showID->dataPemilih;
-                cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
-                cout<<"| No."<<setfill(' ')<<setw(3)
-                    <<"|"<<" Nama"<<setw(10)
-                    <<"|"<<" Diagnosa"<<setw(6)
-                    <<"|"<<"Usia"<<setw(2)
-                    <<"|"<<" Biaya"<<setw(17)
-                    <<"|"<<" Asal Negara"<<setw(8)<<"|"<<endl;
-                cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
-             while(show!=NULL){
-
+            while(show!=NULL){
                 cout<<setfill(' ');
-                cout<<"| "<<show->data[0]<<setw(6-show->data[0].length())
+                cout<<"| "<<show->data[0]<<setw(15-show->data[0].length())
                     <<"|"<<show->data[1]<<setw(15-show->data[1].length())
-                    <<"|"<<show->data[2]<<setw(15-show->data[2].length())
-                    <<"|"<<show->data[3]<<setw(6-show->data[3].length())
-                    <<"|"<<"Rp."<<show->data[4]<<setw(20-show->data[4].length())
-                    <<"|"<<show->data[5]<<setw(20-show->data[5].length())<<"|";
+                    <<"|"<<show->data[2]<<setw(30-show->data[2].length())
+                    <<"| "<<show->data[3]<<setw(4-show->data[3].length())
+                    <<"|"<<setw(8)<<show->data[4]<<setw(8-show->data[4].length())
+                    <<"|"<<"Rp."<<show->data[5]<<setw(20-show->data[5].length())<<"|";
                 cout<<endl;
                 show = show->next;
             }
             showID = showID->next;
         }
         
-        cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
     }
 }
 
 
-//KELOLA NodeID
+//////////////--------KELOLA NodeID--------//////////////
+//mengambil tipe id dari id pemilih, misal: ambil DKI dari DKI01234, ambil JB dari JB02341
+string ambilTipeID(string id){
+
+    string tipeid;
+    int i=0;
+    while(id[i]!='0'){
+        tipeid+=id[i];
+        i++;
+    }
+    return tipeid;
+
+}
+
+//tambah data di depan NodeID
+void tambahIDDepan(string idname, string asal){
+    NodeID *idbaru = new NodeID;
+    idbaru->id = idname;
+    idbaru->next = NULL;
+
+    if(kumpulanID == NULL){
+        kumpulanID = idbaru;
+        IDAkhir = kumpulanID;    
+    }
+    else{
+        idbaru->next = kumpulanID;
+        kumpulanID = idbaru;
+    }
+}
+
 //tambah data di belakang NodeID
-void tambahID(string idname){
+void tambahIDBelakang(string idname){
     NodeID *idbaru = new NodeID;
     idbaru->id = idname;
     idbaru->next = NULL;
@@ -82,7 +110,7 @@ void tambahID(string idname){
     }
 }
 
-//pencarian
+//pencarian ID
 //cari suatu ID, jika tidak ketemu maka kembalikan false
 int temukanID(string idname){
     NodeID *d = kumpulanID;
@@ -95,7 +123,7 @@ int temukanID(string idname){
     return 0;
 }
 
-//cari suatu ID, jika ketemu maka kembalikan node id tersebut
+//cari suatu ID, jika ketemu maka kembalikan node id tersebut (anggapan yang dicari ada)
 NodeID *dapatkanNodeID(string idname){
     NodeID *d = kumpulanID;
     while(d!=NULL){
@@ -106,6 +134,7 @@ NodeID *dapatkanNodeID(string idname){
     }
 }
 
+//tampilkan ID
 //tampilkan data hanya berdasarkan id
 void tampilkanDataId(string idname){
     if(temukanID(idname) == 0){
@@ -136,16 +165,44 @@ void tampilkanDataId(string idname){
     cout<<"+"<<setfill('-')<<setw(7)<<"+"<<setw(15)<<"+"<<setw(15)<<"+"<<setw(6)<<"+"<<setw(23)<<"+"<<setw(20)<<"+"<<endl;
 }
 
+//tampilkan  ID yang ada
+void tampilkanID(){
+    if(kumpulanID == 0){
+        cout<<"Tidak ditemukan ID yang terdaftar!"<<endl;
+        return;
+    }
+    cout<<"+"<<setfill('-')<<setw(35)<<"+"<<endl;
+    cout<<"| Berikut ID yang sudah terdaftar: |"<<endl;
+    cout<<"+"<<setfill('-')<<setw(35)<<"+"<<endl;
+
+    cout<<setfill(' ');
+    NodeID *show = kumpulanID;
+    while(show!=NULL){
+        cout<<"| "<<show->id<<setw(34-show->id.length())<<"|"<<endl;
+        show = show->next;
+    }
+    cout<<"+"<<setfill('-')<<setw(35)<<"+"<<endl;
+}
 //hapus ID
 //temukan idname kemudian hapus node yang mengandung idname tersebut
+void hapusIDDepan(){
+    if(kumpulanID = NULL){
+        cout<<"Tidak ada ID untuk dihapus!"<<endl;
+        return;
+    }
+
+    NodeID *hapus = kumpulanID;
+    kumpulanID = kumpulanID->next;
+    delete hapus;
+    
+}
 void hapusID(string idname){
     if(temukanID(idname) == 1){
         
-        //jika id yang dihapus ialah id pertama
+        //jika id yang dihapus ialah id pertama, alihkan ke fungsi hapusIdDepan
         if(kumpulanID->id == idname){
-            NodeID *hapus = kumpulanID;
-            kumpulanID = kumpulanID->next;
-            delete hapus;
+            hapusIDDepan();
+            return;
         }
         else{
             NodeID *d = kumpulanID;
@@ -158,11 +215,14 @@ void hapusID(string idname){
         }
     }
     else{
+        cout<<"ID tidak ditemukan!"<<endl;
         return;
     }
 }
 
-//KELOLA NodePemilih
+//////////////--------End Of KELOLA NodeID--------//////////////
+
+//////////////--------KELOLA NodePemilih--------//////////////
 //fungsi pencarian dengan asumsi id ada.
 int cariData(string caridata, string idname){
     
@@ -182,20 +242,24 @@ void tambahDataDepan(string row[]){
 
     NodePemilih *baru = new NodePemilih;
     NodeID *pemilihID = kumpulanID;
-    baru->data[0] = row[0];
-    baru->data[1] = row[1];
-    baru->data[2] = row[2];
-    baru->data[3] = row[3];
-    baru->data[4] = row[4];
-    baru->data[5] = row[5]; //asal
+
+    baru->data[0] = row[0]; //id misal: DKI01234
+    string tipeid = ambilTipeID(row[0]); //DKI, JT, JB, dsb
+
+    baru->data[1] = row[1]; //nama
+    baru->data[2] = row[2]; //askot
+    baru->data[3] = row[3]; //jenis kelamin
+    baru->data[4] = row[4]; //pilihan capres
+    baru->data[5] = row[5]; //donasi
 
     baru->prev = NULL;
     baru->next = NULL;
     
-    if(temukanID(row[5]) == 0){
-        tambahID(row[5]);
+
+    if(temukanID(tipeid) == 0){
+        tambahIDBelakang(tipeid);
     }
-    pemilihID = dapatkanNodeID(row[5]);
+    pemilihID = dapatkanNodeID(tipeid);
     if(cekKosong(pemilihID->dataPemilih)){
 
         pemilihID->dataPemilih = baru;
@@ -212,32 +276,40 @@ void tambahDataDepan(string row[]){
 
 }
 
-//dataid = data yang menjadi acuan user
-//idname = id dimana data tersebut berada
-//data akan disisipkan sebelum data dengan id 'dataid'
+
 void tambahDataTengah(string row[], string dataid, string idname){
+    //dataid = data yang menjadi acuan user
+    //idname = id dimana data tersebut berada
+    //data akan disisipkan sebelum data dengan id 'dataid'
     if(cariData(dataid,idname)==0){
         cout<<"Data pemilih dengan id "<<dataid<<" tidak ditemukan!"<<endl;
         return;
     }
     else{
-        NodeID *ID = dapatkanNodeID(idname);
+        NodePemilih *baru = new NodePemilih;
+        baru->data[0] = row[0]; //id misal: DKI01234
+        string tipeid = ambilTipeID(row[0]); //DKI, JT, JB, dsb
+
+        baru->data[1] = row[1]; //nama
+        baru->data[2] = row[2]; //askot
+        baru->data[3] = row[3]; //jenis kelamin
+        baru->data[4] = row[4]; //pilihan capres
+        baru->data[5] = row[5]; //donasi
+
+        baru->prev = NULL;
+        baru->next = NULL;
+
+        if(temukanID(tipeid) == 0){
+            tambahIDBelakang(tipeid);
+        }
+
+        NodeID *ID = dapatkanNodeID(tipeid);
+
         //kalau data acuan berada didepan, maka alihkan ke fungsi tambah depan
         if(dataid == ID->dataPemilih->data[0]){
             tambahDataDepan(row);
             return;
         }
-
-        NodePemilih *baru = new NodePemilih;
-        baru->data[0] = row[0];
-        baru->data[1] = row[1];
-        baru->data[2] = row[2];
-        baru->data[3] = row[3];
-        baru->data[4] = row[4];
-        baru->data[5] = row[5]; //asal
-
-        baru->prev = NULL;
-        baru->next = NULL;
 
         NodePemilih *bantu = ID->dataPemilih;
         while(bantu->data[0]!=dataid){
@@ -259,19 +331,23 @@ void tambahDataTengah(string row[], string dataid, string idname){
 void tambahDataBelakang(string row[]){
     NodePemilih *baru = new NodePemilih;
     NodeID *pemilihID = kumpulanID;
-    baru->data[0] = row[0];
-    baru->data[1] = row[1];
-    baru->data[2] = row[2];
-    baru->data[3] = row[3];
-    baru->data[4] = row[4];
-    baru->data[5] = string(row[5]);
+    baru->data[0] = row[0]; //id misal: DKI01234
+    string tipeid = ambilTipeID(row[0]); //DKI, JT, JB, dsb
+
+    baru->data[1] = row[1]; //nama
+    baru->data[2] = row[2]; //askot
+    baru->data[3] = row[3]; //jenis kelamin
+    baru->data[4] = row[4]; //pilihan capres
+    baru->data[5] = row[5]; //donasi
+
     baru->prev = NULL;
     baru->next = NULL;
     
-    if(temukanID(row[5]) == 0){
-        tambahID(row[5]);
+
+    if(temukanID(tipeid) == 0){
+        tambahIDBelakang(tipeid);
     }
-    pemilihID = dapatkanNodeID(row[5]);
+    pemilihID = dapatkanNodeID(tipeid);
     if(cekKosong(pemilihID->dataPemilih)){
         
         pemilihID->dataPemilih = baru;
@@ -368,6 +444,7 @@ void hapusDataTengah(string idname, string dataid){
         }
     }
 }
+//////////////--------End Of KELOLA NodePemilih--------//////////////
 
 //hapus SEMUA data
 void hapusSemua(){
@@ -378,12 +455,12 @@ void hapusSemua(){
 
 void baca_file(){
     fstream report;
-    report.open("contohdatauts.csv", ios::in);
+    report.open("dataSurveyPemilu.csv", ios::in);
     
     string line, word;
 
     while(getline(report, line)){
-        string row[7]; int rowIndex=0;
+        string row[20]; int rowIndex=0;
         istringstream iss(line);
 
         while(getline(iss, word, ';')){
@@ -398,10 +475,6 @@ int main(){
     baca_file();
     
     
-    tampilkanDataId("Inggris");
-    string i; cin>>i;
-    hapusDataTengah("Inggris",i);
-    
-    tampilkanDataId("Inggris");
+    tampilkan();
 
 }
