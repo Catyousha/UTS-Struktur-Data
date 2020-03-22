@@ -1037,10 +1037,13 @@ void menuCountOf(){
 
 void menuSumOf(){
     int jumlahdonasi = hitungJumlahDonasi();
-    string digit = to_string(jumlahdonasi);
+    stringstream digit;
+    digit << jumlahdonasi;
+    string digitkarakter = digit.str();
+    
     cout<<"++++============++++Jumlah Donasi Yang Sudah Terkumpul++++============++++"<<endl;
     cout<<"|                                                                        |"<<endl;
-    cout<<"| Rp."<<jumlahdonasi<<setfill(' ')<<setw(69-digit.length())<<"|"<<endl;
+    cout<<"| Rp."<<jumlahdonasi<<setfill(' ')<<setw(69-digitkarakter.length())<<"|"<<endl;
     cout<<"|                                                                        |"<<endl;
     cout<<"=================++++++++++++++++++++++++++++++++++++++++++==============="<<endl;
     cout<<"Tekan tombol apapun untuk kembali..."<<endl;
