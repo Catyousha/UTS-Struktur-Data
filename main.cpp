@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+
+#define NAMA_FILE_CSV "dataSurveyPemilu.csv"
 using namespace std;
 
 struct NodePemilih{
@@ -284,6 +286,7 @@ void tampilkanDataPemilih(string caridata){
 }
 
 
+
 //fungsi penambahan
 void tambahDataDepan(string row[]){
     NodePemilih *baru = new NodePemilih;
@@ -508,18 +511,30 @@ void hapusDataTengah(string idname, string acuan){
         cout<<"Data berhasil dihapus!"<<endl;
     }
 }
+void hapusSemuaDataPemilih(string idname){
+    NodeID *ID = dapatkanNodeID(idname);
+    NodePemilih *hapus = ID->dataPemilih;
+    while(ID->dataPemilih != NULL){
+        NodePemilih *hapus = ID->dataPemilih;
+        ID->dataPemilih = ID->dataPemilih->next;
+        delete hapus;
+    }
+}
 //////////////--------End Of KELOLA NodePemilih--------//////////////
 
 //hapus SEMUA data
 void hapusSemua(){
     while(kumpulanID!=NULL){
-        hapusID(kumpulanID->id);
+        NodeID *hapus = kumpulanID;
+        kumpulanID = kumpulanID->next;
+        delete hapus;
     }
 }
 
+//////////////--------Fungsi tambahan + Agregat--------//////////////
 void baca_file(){
     fstream report;
-    report.open("dataSurveyPemilu.csv", ios::in);
+    report.open(NAMA_FILE_CSV, ios::in);
     
     string line, word;
 
@@ -534,10 +549,102 @@ void baca_file(){
         tambahDataBelakang(row);
     }
 }
+void tampilkanDataPendukungPaslon(string paslon){
+    if(kumpulanID == NULL){
+        cout<<"Tidak ada data untuk ditampilkan!"<<endl;
+    }
+    else{
 
+        NodeID *showID = kumpulanID;
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
+        cout<<"| ID"<<setfill(' ')<<setw(13)
+            <<"|"<<" Nama"<<setw(10)
+            <<"|"<<" Asal Kota"<<setw(19)
+            <<"|"<<" JK"<<setw(2)
+            <<"|"<<" Pil. Capres"<<setw(3)
+            <<"|"<<" Donasi"<<setw(16)<<"|"<<endl;
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
+        while(showID!=NULL){
+            NodePemilih *show = showID->dataPemilih;
+
+            while(show!=NULL){
+                //kalau pil capres tidak sesuai dengan parameter paslon, skip
+                if(show->data[4] != paslon){
+                    show = show->next;
+                }
+                else{
+                    cout<<setfill(' ');
+                    cout<<"| "<<show->data[0]<<setw(15-show->data[0].length())
+                        <<"|"<<show->data[1]<<setw(15-show->data[1].length())
+                        <<"|"<<show->data[2]<<setw(30-show->data[2].length())
+                        <<"| "<<show->data[3]<<setw(4-show->data[3].length())
+                        <<"|"<<setw(8)<<show->data[4]<<setw(8-show->data[4].length())
+                        <<"|"<<"Rp."<<show->data[5]<<setw(20-show->data[5].length())<<"|";
+                    cout<<endl;
+                    show = show->next;
+                }
+            }
+            showID = showID->next;
+        }
+        
+        cout<<"+"<<setfill('-')<<setw(16)<<"+"<<setw(15)<<"+"<<setw(29)<<"+"<<setw(5)<<"+"<<setw(15)<<"+"<<setw(23)<<"+"<<endl;
+    } 
+}
+
+int hitungJumlahPendukung(string paslon){
+    int count = 0;
+    NodeID *showID = kumpulanID;
+    while(showID!=NULL){
+        NodePemilih *show = showID->dataPemilih;
+        while(show!=NULL){
+            if(show->data[4] == paslon){
+                count++;
+            }
+            show = show->next;
+        }
+        showID = showID->next;
+    }
+    return count;
+}
+int hitungJumlahDonasi(){
+    int sum=0;
+    NodeID *showID = kumpulanID;
+    while(showID!=NULL){
+        NodePemilih *show = showID->dataPemilih;
+        while(show!=NULL){
+            sum+=stoi(show->data[5]);
+            show = show->next;
+        }
+        showID = showID->next;
+    }
+    return sum;
+}
+void simpan_file(){
+    ofstream report;
+    report.open(NAMA_FILE_CSV);
+    NodeID *ID = kumpulanID;
+    while(ID != NULL){
+        NodePemilih *save = ID->dataPemilih;
+        while(save != NULL){
+            report<<save->data[0]<<";"
+            <<save->data[1]<<";"
+            <<save->data[2]<<";"
+            <<save->data[3]<<";"
+            <<save->data[4]<<";"
+            <<save->data[5]<<";"<<endl;
+            save = save->next;
+        }
+        ID = ID->next;
+    }
+    report.close();
+}
+//////////////--------End Of Fungsi tambahan + Agregat--------//////////////
 void menuKelolaID();
 void menuKelolaPemilih(string idname);
-
+void menuDataSpesifik();
+void menuCountOf();
+void menuSumOf();
+void menuSimpanDanKeluar();
 
 int main(){
     baca_file();
@@ -584,6 +691,27 @@ int main(){
             cin.get();
             goto mainmenu;
         }
+        goto mainmenu;
+    }
+    else if(opsi == 4){
+        menuDataSpesifik();
+        goto mainmenu;
+    }
+    else if(opsi == 5){
+        menuCountOf();
+        goto mainmenu;
+    }
+    else if(opsi == 6){
+        menuSumOf();
+        goto mainmenu;
+    }
+    else if(opsi == 7){
+        menuSimpanDanKeluar();
+    }
+    else{
+        cout<<"Opsi tidak ditemukan!"<<endl;
+        cin.ignore();
+        cin.get();
         goto mainmenu;
     }
 }
@@ -693,9 +821,9 @@ void menuKelolaID(){
     }
     else if(opsiid == 6){
         cout<<"Dengan menghapus semua ID, maka anda juga menghapus keseluruhan data yang ada."<<endl;
-        cout<<"Ketik 'Ya, Semuanya Akan Saya Hapus' untuk menghapus semua ID"<<endl;
+        cout<<"Ketik 'YaSemuanyaAkanSayaHapus' untuk menghapus semua ID"<<endl;
         string konfirm; cin>>konfirm;
-        if(konfirm == "Ya, Semuanya Akan Saya Hapus"){
+        if(konfirm == "YaSemuanyaAkanSayaHapus"){
             hapusSemua();
             cout<<"Data Berhasil dihapus!"<<endl;
         }
@@ -729,9 +857,10 @@ void menuKelolaPemilih(string idname){
     cout<<"| 4. Tambah Data Pemilih Belakang                    |"<<endl;
     cout<<"|                                                    |"<<endl;
     cout<<"| 5. Hapus Data Pemilih                              |"<<endl;
-    cout<<"| 6. Cari Data Pemilih                               |"<<endl;
+    cout<<"| 6. Hapus Semua Data Pemilih                        |"<<endl;
+    cout<<"| 7. Cari Data Pemilih                               |"<<endl;
     cout<<"|                                                    |"<<endl;
-    cout<<"| 7. Kembali ke Menu Awal                            |"<<endl;
+    cout<<"| 8. Kembali ke Menu Awal                            |"<<endl;
     cout<<"|                                                    |"<<endl;
     cout<<"=================++++++++++++++++++++++==============="<<endl;
     cout<<"* Pilih opsi...                                   | ";
@@ -839,6 +968,21 @@ void menuKelolaPemilih(string idname){
         goto menukelolaPemilih;
     }
     else if(opsipem == 6){
+        cout<<"Seluruh data pada ID ini akan dihapus."<<endl;
+        cout<<"Ketik 'YaHapusSemua' untuk menghapus seluruh data yang ada pada ID ini: "<<endl;
+        string konfirm; cin>>konfirm;
+        if(konfirm == "YaHapusSemua"){
+            hapusSemuaDataPemilih(idname);
+            cout<<"Penghapusan selesai!"<<endl;
+        }
+        else{
+            cout<<"Penghapusan dibatalkan."<<endl;
+        }
+        cin.ignore();
+        cin.get();
+        goto menukelolaPemilih;
+    }
+    else if(opsipem == 7){
         cout<<"++++============++++Cari Data Pemilih++++============++++"<<endl;
         cout<<"* Masukkan ID Pemilih :"; string idpem; cin>>idpem;
         cout<<"++++============+++++++++++++++++++++++++============++++"<<endl;
@@ -849,7 +993,7 @@ void menuKelolaPemilih(string idname){
         cin.get();
         goto menukelolaPemilih;
     }
-    else if(opsipem == 7){
+    else if(opsipem == 8){
         return;
     }
     else{
@@ -858,4 +1002,57 @@ void menuKelolaPemilih(string idname){
         cin.get();
         goto menukelolaPemilih;
     }
+}
+
+void menuDataSpesifik(){
+    cout<<"++++============++++Tampilkan Pendukung Capres++++============++++"<<endl;
+    cout<<"* Masukkan Nomor Urut Paslon: "; string paslon; cin>>paslon;
+    cout<<"++++============++++++++++++++++++++++++++++++++++============++++"<<endl;
+    tampilkanDataPendukungPaslon(paslon);
+    cout<<"Tekan tombol apapun untuk kembali...";
+    cin.ignore();
+    cin.get();
+    return;
+}
+
+void menuCountOf(){
+    int pendukungno1 = hitungJumlahPendukung("1");
+    int pendukungno2 = hitungJumlahPendukung("2");
+
+    cout<<"++++============++++Tampilkan Statistik Dukungan++++============++++"<<endl;
+    cout<<"* Pendukung Paslon No.Urut 1: "<<pendukungno1<<setfill(' ')<<setw(36)<<"*"<<endl;
+    cout<<"|                                                                   |"<<endl;
+    cout<<"* Pendukung Paslon No.Urut 2: "<<pendukungno2<<setfill(' ')<<setw(36)<<"*"<<endl;
+    cout<<"++++============++++++++++++++++++++++++++++++++++++============++++"<<endl;
+    cout<<"Tekan tombol apapun untuk kembali...";
+    cin.ignore();
+    cin.get();
+    return;
+}
+
+void menuSumOf(){
+    int jumlahdonasi = hitungJumlahDonasi();
+    string digit = to_string(jumlahdonasi);
+    cout<<"++++============++++Jumlah Donasi Yang Sudah Terkumpul++++============++++"<<endl;
+    cout<<"|                                                                        |"<<endl;
+    cout<<"| Rp."<<jumlahdonasi<<setfill(' ')<<setw(69-digit.length())<<"|"<<endl;
+    cout<<"|                                                                        |"<<endl;
+    cout<<"=================++++++++++++++++++++++++++++++++++++++++++==============="<<endl;
+    cout<<"Tekan tombol apapun untuk kembali..."<<endl;
+    cin.ignore();
+    cin.get();
+    return;
+}
+
+void menuSimpanDanKeluar(){
+    cout<<"Menyimpan data..."<<endl;
+    simpan_file();
+    cout<<"Penyimpanan berhasil!\n\n\n"<<endl;
+    cout<<"++++==============++++Sampai Jumpa++++===============++++"<<endl;
+    cout<<"++++                                                 ++++"<<endl;
+    cout<<"++++ Jaka Asa Baldan Ahmad            (190535646020) ++++"<<endl;
+    cout<<"++++ Syahrieza Ilham Noor Fauzi       (190535646020) ++++"<<endl;
+    cout<<"++++ Winaldo Dwi Putra Laua           (190535646020) ++++"<<endl;
+    cout<<"++++                                                 ++++"<<endl;
+    cout<<"++++=============++++Selamat/Sukses++++==============++++"<<endl;
 }
