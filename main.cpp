@@ -612,7 +612,12 @@ int hitungJumlahDonasi(){
     while(showID!=NULL){
         NodePemilih *show = showID->dataPemilih;
         while(show!=NULL){
-            sum+=stoi(show->data[5]);
+            string uangdonasi = show->data[5];
+            stringstream geek(uangdonasi);
+            
+            int nominal;
+            geek >> nominal;
+            sum+=nominal;
             show = show->next;
         }
         showID = showID->next;
