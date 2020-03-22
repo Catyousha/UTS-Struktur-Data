@@ -1,12 +1,7 @@
 # UTS-Struktur-Data
 
-TO-DO:
+Jaka Asa Baldan Ahmad (190535646020)
 
--Tambah data di nomor sekian
+Syahrieza Ilham Noor Fauzi (190535646058)
 
--Hapus data di nomor sekian
-
-
--Implementasiin singly linked list dimana?
-
--data csvnya mana woi
+Winaldo Dwi Putra Laua (190535646057)
