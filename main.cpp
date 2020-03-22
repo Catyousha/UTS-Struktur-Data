@@ -1051,8 +1051,8 @@ void menuSimpanDanKeluar(){
     cout<<"++++==============++++Sampai Jumpa++++===============++++"<<endl;
     cout<<"++++                                                 ++++"<<endl;
     cout<<"++++ Jaka Asa Baldan Ahmad            (190535646020) ++++"<<endl;
-    cout<<"++++ Syahrieza Ilham Noor Fauzi       (190535646020) ++++"<<endl;
-    cout<<"++++ Winaldo Dwi Putra Laua           (190535646020) ++++"<<endl;
+    cout<<"++++ Syahrieza Ilham Noor Fauzi       (190535646058) ++++"<<endl;
+    cout<<"++++ Winaldo Dwi Putra Laua           (190535646057) ++++"<<endl;
     cout<<"++++                                                 ++++"<<endl;
     cout<<"++++=============++++Selamat/Sukses++++==============++++"<<endl;
 }
