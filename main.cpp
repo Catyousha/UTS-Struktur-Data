@@ -128,6 +128,7 @@ void tambahIDBelakang(string idname){
         IDAkhir = kumpulanID;    
     }
     else{
+
         IDAkhir->next = idbaru;
         IDAkhir = idbaru;
     }
@@ -209,15 +210,44 @@ void tampilkanID(){
 //hapus ID
 //temukan idname kemudian hapus node yang mengandung idname tersebut
 void hapusIDDepan(){
-    if(kumpulanID = NULL){
+    if(kumpulanID == NULL){
         cout<<"Tidak ada ID untuk dihapus!"<<endl;
+        return;
+    }
+
+    if(kumpulanID->next == NULL){
+        kumpulanID = NULL;
+        IDAkhir == NULL;
         return;
     }
 
     NodeID *hapus = kumpulanID;
     kumpulanID = kumpulanID->next;
     delete hapus;
+
     
+}
+
+void hapusIDBelakang(){
+    if(kumpulanID == NULL){
+        cout<<"Tidak ada ID untuk dihapus!"<<endl;
+        return;
+    }
+
+    if(kumpulanID->next == NULL){
+        kumpulanID = NULL;
+        IDAkhir == NULL;
+        return;
+    }
+
+    NodeID *hapus = kumpulanID;
+    while(hapus->next != IDAkhir){
+        hapus = hapus->next;
+    }
+    IDAkhir = hapus;
+    hapus = hapus->next;
+    IDAkhir->next = NULL;
+    delete hapus;
 }
 void hapusID(string idname){
     if(temukanID(idname) == 1){
@@ -225,6 +255,10 @@ void hapusID(string idname){
         //jika id yang dihapus ialah id pertama, alihkan ke fungsi hapusIdDepan
         if(kumpulanID->id == idname){
             hapusIDDepan();
+            return;
+        }
+        else if(IDAkhir->id == idname){
+            hapusIDBelakang();
             return;
         }
         else{
@@ -656,6 +690,7 @@ int main(){
     mainmenu: //checkpoint
     //system("cls"); //windows
     system("clear"); //linux
+
     cout<<"++++============++++SURVEY CORPS++++============++++"<<endl; //referensi attack on titan
     cout<<"|                                                  |"<<endl;
     cout<<"| 1. Tampilkan Data Hasil Survey                   |"<<endl; //show all data
