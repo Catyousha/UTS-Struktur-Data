@@ -110,7 +110,7 @@ void tambahIDTengah(string idname, string acuan){
     while(cari->next->id != acuan){
         cari = cari->next;
     }
-    cout<<"p"<<endl;
+
     NodeID *bantu = cari->next;
     idbaru->next = cari->next;
     cari->next = idbaru;
