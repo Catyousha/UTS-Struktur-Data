@@ -688,8 +688,8 @@ void menuSimpanDanKeluar();
 int main(){
     baca_file();
     mainmenu: //checkpoint
-    //system("cls"); //windows
-    system("clear"); //linux
+    system("cls"); //windows
+    //system("clear"); //linux
 
     cout<<"++++============++++SURVEY CORPS++++============++++"<<endl; //referensi attack on titan
     cout<<"|                                                  |"<<endl;
@@ -704,8 +704,8 @@ int main(){
     cout<<"=================++++++++++++++++++++==============="<<endl;
     cout<<"* Pilih opsi...                                   | ";
     int opsi; cin>>opsi;
-    //system("cls");
-    system("clear");
+    system("cls");
+    //system("clear");
 
     if(opsi == 1){
         tampilkan();
@@ -760,8 +760,8 @@ int main(){
 void menuKelolaID(){
 
     menukelolaID:
-    //system("cls");
-    system("clear");
+    system("cls");
+    //system("clear");
     cout<<"++++============+++++Kelola ID+++++=============++++"<<endl;
     cout<<"|                                                  |"<<endl;
     cout<<"| 1. Tampilkan ID Yang Terdaftar                   |"<<endl; //show all data
@@ -775,8 +775,8 @@ void menuKelolaID(){
     cout<<"=================++++++++++++++++++++==============="<<endl;
     cout<<"* Pilih opsi...                                   | ";
     int opsiid; cin>>opsiid;
-    //system("cls");
-    system("clear");
+    system("cls");
+    //system("clear");
     if(opsiid == 1){
         tampilkanID();
         cin.ignore();
@@ -887,8 +887,8 @@ void menuKelolaID(){
 
 void menuKelolaPemilih(string idname){
     menukelolaPemilih:
-    //system("cls");
-    system("clear");
+    system("cls");
+    //system("clear");
     cout<<"++++============++++Kelola Pemilih++++============++++"<<endl;
     cout<<"|                          "<<idname<<setfill(' ')<<setw(27-idname.length())<<"|"<<endl;
     cout<<"| 1. Tampilkan Pemilih Yang Terdaftar                |"<<endl; //show all data
@@ -905,8 +905,8 @@ void menuKelolaPemilih(string idname){
     cout<<"=================++++++++++++++++++++++==============="<<endl;
     cout<<"* Pilih opsi...                                   | ";
     int opsipem; cin>>opsipem;
-    //system("cls");
-    system("clear");
+    system("cls");
+    //system("clear");
 
     if(opsipem == 1){
         tampilkanDataId(idname);
